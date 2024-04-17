@@ -1,0 +1,4 @@
+<div class="container">
+  <app-camera (pictureTaken)="initProcess($event)"></app-camera>
+  <app-tesseract [image]="webcamImage.imageAsDataUrl" *ngIf="webcamImage"></app-tesseract>
+</div>

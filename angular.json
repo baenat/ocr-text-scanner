@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "camera_id": {
+    "web_cam_scan": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/camera_id",
+            "outputPath": "dist/web_cam_scan",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "camera_id:build:production"
+              "browserTarget": "web_cam_scan:build:production"
             },
             "development": {
-              "browserTarget": "camera_id:build:development"
+              "browserTarget": "web_cam_scan:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "camera_id:build"
+            "browserTarget": "web_cam_scan:build"
           }
         },
         "test": {

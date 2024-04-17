@@ -1,0 +1,24 @@
+<div class="container-camera">
+
+  <h2>{{ title }}</h2>
+
+  <div class="content-camera" *ngIf="!imageLoad">
+    <webcam [trigger]="$trigger" (imageCapture)="captureImg($event)"
+      [allowCameraSwitch]="allowCameraSwitch"
+      [switchCamera]="nextWebcamObservable"></webcam>
+  </div>
+
+  <div class="content-preview" *ngIf="imageLoad">
+    <img (load)="imageLoad = true" #inputImage  [src]="previewImage" />
+  </div>
+
+  <div class="content-buttons">
+    <button class="button-capture" [disabled]="!checkPermission" (click)="getSnapshot()">
+      {{ (previewImage) ? btnCapture + ' again' : btnCapture }}
+    </button>
+    <button class="button-capture" [disabled]="!imageLoad" (click)="emitImage()">
+      {{ btnRecognize }}
+    </button>
+  </div>
+
+</div>
