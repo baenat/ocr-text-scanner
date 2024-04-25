@@ -1,6 +1,10 @@
-<div class="container-tesseract">
+<div class="container-tesseract" *ngIf="workerProgress">
   <div>
     <h2>Progress {{ workerProgress }}%</h2>
+    <span (click)="removeResponse()">x</span>
   </div>
-  <span> {{ workResult }}</span>
+  <div *ngFor="let text of workResult">
+    <span> {{ text }}</span>
+    <hr>
+  </div>
 </div>

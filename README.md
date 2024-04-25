@@ -1,6 +1,18 @@
-# CameraId
+# OCR Text Scanner
+
+OCR Text Scanner es una web para reconocer los caracteres de una imagen.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
+
+## Lenguaje y Framework
+
+- Typescrit & Angular
+
+![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![GIT](https://img.shields.io/badge/Git-fc6d26?style=for-the-badge&logo=git&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 
 ## Development server
 

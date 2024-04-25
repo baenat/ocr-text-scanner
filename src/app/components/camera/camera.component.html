@@ -9,12 +9,12 @@
   </div>
 
   <div class="content-preview" *ngIf="imageLoad">
-    <img (load)="imageLoad = true" #inputImage  [src]="previewImage" />
+    <img (load)="imageLoad = true" #inputImage  [src]="previewImage" alt="Capture"/>
   </div>
 
   <div class="content-buttons">
     <button class="button-capture" [disabled]="!checkPermission" (click)="getSnapshot()">
-      {{ (previewImage) ? btnCapture + ' again' : btnCapture }}
+      {{ (imageLoad) ? btnCapture + ' again' : btnCapture }}
     </button>
     <button class="button-capture" [disabled]="!imageLoad" (click)="emitImage()">
       {{ btnRecognize }}

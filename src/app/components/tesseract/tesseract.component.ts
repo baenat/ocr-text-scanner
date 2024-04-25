@@ -15,7 +15,7 @@ export class TesseractComponent implements OnInit {
 
   public worker!: Tesseract.Worker;
   public workerProgress = 0;
-  public workResult = '';
+  public workResult: Array<string> = [];
   public workReady = false;
 
   constructor(private _tesseractService: TesseractService) { }
@@ -45,8 +45,13 @@ export class TesseractComponent implements OnInit {
       }
     });
 
-    this.workResult = worker.data.text;
+    this.workResult = [...this.workResult, worker.data.text]
     this.workReady = true;
+  }
+
+  removeResponse = () => {
+    this.workResult = [];
+    this.workerProgress = 0;
   }
 
 }
