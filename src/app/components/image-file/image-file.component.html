@@ -1,0 +1,10 @@
+<h2>{{ title }}</h2>
+<div class="image-file">
+  <input type="file" accept=".jpg,.jpeg,.png" (change)="onFileSelected($event)" />
+</div>
+<div class="content-preview" *ngIf="imageLoad">
+  <img #inputImage [src]="fileSelected" [alt]="fileSelected" />
+</div>
+<div *ngIf="messsage">
+  <p>{{ messsage }}</p>
+</div>

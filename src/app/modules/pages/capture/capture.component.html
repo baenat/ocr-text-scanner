@@ -1,4 +1,13 @@
-<div class="container">
-  <app-camera (pictureTaken)="initProcess($event)"></app-camera>
-  <app-tesseract [image]="webcamImage.imageAsDataUrl" *ngIf="webcamImage"></app-tesseract>
+<div class="container-buttons">
+  <button [ngClass]="bShowCameraCapture ? 'btn-selected': 'btn-not-selected'"
+    (click)="showVideoCapture()">Camera</button>
+  <button [ngClass]="!bShowCameraCapture ? 'btn-selected': 'btn-not-selected'"
+    (click)="showImageCapture()">Image</button>
+</div>
+<div class="container-components">
+  <div class="content-options">
+    <app-camera *ngIf="bShowCameraCapture"></app-camera>
+    <app-image-file *ngIf="bShowImageCapture"></app-image-file>
+  </div>
+  <app-tesseract></app-tesseract>
 </div>

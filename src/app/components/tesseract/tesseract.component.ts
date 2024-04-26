@@ -1,38 +1,46 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { WebcamImage } from 'ngx-webcam';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { TesseractService } from 'src/app/services/tesseract.service';
 import * as Tesseract from 'tesseract.js';
-import { recognize, createWorker } from 'tesseract.js';
+import { recognize, createWorker, Worker } from 'tesseract.js';
 
 @Component({
   selector: 'app-tesseract',
   templateUrl: './tesseract.component.html',
   styleUrls: ['./tesseract.component.scss']
 })
-export class TesseractComponent implements OnInit {
+export class TesseractComponent implements OnInit, OnDestroy {
 
-  @Input('image') base64Data: string = '';
+  private destroy$ = new Subject<void>();
 
-  public worker!: Tesseract.Worker;
+  public worker!: Worker;
   public workerProgress = 0;
   public workResult: Array<string> = [];
   public workReady = false;
 
-  constructor(private _tesseractService: TesseractService) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    if (changes['base64Data']) {
-      console.log('changes => ', changes)
-      const { base64Data: { currentValue } } = changes;
-      this.base64Data = currentValue;
-      if (this.base64Data) {
-        const blob = this._tesseractService.base64toBlob(this.base64Data);
-        this.loadWorker(blob);
-      }
-    }
-
+  constructor(private _tesseractService: TesseractService) {
+    this._tesseractService.imageCapture.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        const blob = this._tesseractService.base64toBlob(result);
+        // this.loadWorker(blob);
+        this.recognizeText(blob);
+      },
+    });
   }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+
+  //   if (changes['base64Data']) {
+  //     const { base64Data: { currentValue } } = changes;
+  //     this.base64Data = currentValue;
+  //     if (this.base64Data) {
+  //       const blob = this._tesseractService.base64toBlob(this.base64Data);
+  //       this.loadWorker(blob);
+  //     }
+  //   }
+
+  // }
 
   async ngOnInit() { }
 
@@ -40,7 +48,6 @@ export class TesseractComponent implements OnInit {
 
     const worker = await recognize(blob, 'spa', {
       logger: progress => {
-        console.log('progress => ', progress)
         this.workerProgress = parseInt('' + progress.progress * 100);
       }
     });
@@ -52,6 +59,21 @@ export class TesseractComponent implements OnInit {
   removeResponse = () => {
     this.workResult = [];
     this.workerProgress = 0;
+  }
+
+  recognizeText = async (path: any) => {
+    const worker = await createWorker('spa', 1, {
+      logger: m => this.workerProgress = parseInt('' + m.progress * 100)
+    });
+    const { data: { text } } = await worker.recognize(path);
+    this.workResult = [...this.workResult, text]
+    this.workReady = true;
+    await worker.terminate();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

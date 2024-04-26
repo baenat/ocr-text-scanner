@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { WebcamImage } from 'ngx-webcam';
 
 @Component({
   selector: 'app-capture',
@@ -8,11 +7,17 @@ import { WebcamImage } from 'ngx-webcam';
 })
 export class CaptureComponent {
 
-  public webcamImage!: WebcamImage;
+  bShowCameraCapture = true;
+  bShowImageCapture = false;
 
-  initProcess = (event: WebcamImage) => {
-    console.log('event => ', event)
-    this.webcamImage = event;
+  showVideoCapture(): void {
+    this.bShowCameraCapture = true;
+    this.bShowImageCapture = false;
+  }
+
+  showImageCapture(): void {
+    this.bShowCameraCapture = false;
+    this.bShowImageCapture = true;
   }
 
 }

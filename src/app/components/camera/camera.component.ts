@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
+import { TesseractService } from 'src/app/services/tesseract.service';
 
 @Component({
   selector: 'app-camera',
@@ -25,7 +26,7 @@ export class CameraComponent {
 
   stream!: MediaStream;
 
-  constructor() {
+  constructor(private _tesseractService: TesseractService) {
     this.title = 'Bring the identification document closer to the camera';
     this.btnCapture = 'Take a picture';
     this.btnRecognize = 'Recognize';
@@ -55,7 +56,7 @@ export class CameraComponent {
   }
 
   public emitImage = () => {
-    if (this.image && this.imageLoad) this.pictureTaken.emit(this.image);
+    this._tesseractService.imageCaptureData = this.image.imageAsDataUrl;
   }
 
   checkPermissions = () => {

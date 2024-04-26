@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TesseractService {
+
+  private imageCapture$ = new Subject<string>();
 
   constructor() { }
 
@@ -18,4 +21,13 @@ export class TesseractService {
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: contentType });
   }
+
+  get imageCapture(): Observable<string> {
+    return this.imageCapture$.asObservable();
+  }
+
+  set imageCaptureData(image: string) {
+    this.imageCapture$.next(image);
+  }
+
 }
