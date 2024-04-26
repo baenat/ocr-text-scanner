@@ -47,7 +47,10 @@ export class ImageFileComponent {
   }
 
   recognizeText = (path: any) => {
-    this._tesseractService.imageCaptureData = path;
+    this._tesseractService.showRecognitionView = true;
+    setTimeout(() => {
+      this._tesseractService.imageCaptureData = path;
+    }, 500);
   }
 
 }

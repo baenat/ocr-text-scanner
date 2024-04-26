@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +7,25 @@ import { Observable, Subject } from 'rxjs';
 export class TesseractService {
 
   private imageCapture$ = new Subject<string>();
+  private showRecognition$ = new BehaviorSubject<boolean>(false);
 
   constructor() { }
+
+  get imageCapture(): Observable<string> {
+    return this.imageCapture$.asObservable();
+  }
+
+  set imageCaptureData(image: string) {
+    this.imageCapture$.next(image);
+  }
+
+  get showRecognitionView(): Observable<boolean> {
+    return this.showRecognition$.asObservable();
+  }
+
+  set showRecognitionView(bool: boolean) {
+    this.showRecognition$.next(bool);
+  }
 
   base64toBlob = (base64Data: string): Blob => {
     const [imageType, base64Raw] = base64Data.split(';base64,');
@@ -20,14 +37,6 @@ export class TesseractService {
     }
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: contentType });
-  }
-
-  get imageCapture(): Observable<string> {
-    return this.imageCapture$.asObservable();
-  }
-
-  set imageCaptureData(image: string) {
-    this.imageCapture$.next(image);
   }
 
 }

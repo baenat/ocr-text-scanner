@@ -56,7 +56,10 @@ export class CameraComponent {
   }
 
   public emitImage = () => {
-    this._tesseractService.imageCaptureData = this.image.imageAsDataUrl;
+    this._tesseractService.showRecognitionView = true;
+    setTimeout(() => {
+      this._tesseractService.imageCaptureData = this.image.imageAsDataUrl;
+    }, 500);
   }
 
   checkPermissions = () => {

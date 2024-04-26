@@ -1,13 +1,13 @@
 <div class="container-buttons">
   <button [ngClass]="bShowCameraCapture ? 'btn-selected': 'btn-not-selected'"
-    (click)="showVideoCapture()">Camera</button>
+    (click)="showComponentCapture()">Camera</button>
   <button [ngClass]="!bShowCameraCapture ? 'btn-selected': 'btn-not-selected'"
-    (click)="showImageCapture()">Image</button>
+    (click)="showComponentCapture()">Image</button>
 </div>
 <div class="container-components">
   <div class="content-options">
     <app-camera *ngIf="bShowCameraCapture"></app-camera>
     <app-image-file *ngIf="bShowImageCapture"></app-image-file>
   </div>
-  <app-tesseract></app-tesseract>
+  <app-tesseract *ngIf="showRecognition|async"></app-tesseract>
 </div>

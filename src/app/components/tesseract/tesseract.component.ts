@@ -29,20 +29,7 @@ export class TesseractComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-
-  //   if (changes['base64Data']) {
-  //     const { base64Data: { currentValue } } = changes;
-  //     this.base64Data = currentValue;
-  //     if (this.base64Data) {
-  //       const blob = this._tesseractService.base64toBlob(this.base64Data);
-  //       this.loadWorker(blob);
-  //     }
-  //   }
-
-  // }
-
-  async ngOnInit() { }
+  ngOnInit() { }
 
   loadWorker = async (blob: Blob) => {
 
@@ -59,13 +46,18 @@ export class TesseractComponent implements OnInit, OnDestroy {
   removeResponse = () => {
     this.workResult = [];
     this.workerProgress = 0;
+    this._tesseractService.showRecognitionView = false;
   }
 
   recognizeText = async (path: any) => {
     const worker = await createWorker('spa', 1, {
-      logger: m => this.workerProgress = parseInt('' + m.progress * 100)
+      logger: log => {
+        if (log.status == 'recognizing text') {
+          this.workerProgress = parseInt('' + log.progress * 100)
+        }
+      }
     });
-    const { data: { text } } = await worker.recognize(path);
+    const { data: { text } } = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
     this.workResult = [...this.workResult, text]
     this.workReady = true;
     await worker.terminate();
