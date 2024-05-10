@@ -7,7 +7,6 @@ import { ComponentsModule } from './components/components.module';
 import { ClipboardModule } from 'ngx-clipboard';
 import { Icons } from '@icons/icons';
 
-
 @NgModule({
   declarations: [
     AppComponent,
