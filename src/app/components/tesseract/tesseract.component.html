@@ -1,10 +1,25 @@
 <div class="container-tesseract">
   <div>
     <h2>Progress {{ workerProgress }}%</h2>
-    <span (click)="removeResponse()">x</span>
+    <img
+      src="{{ _icons.iconRemove }}"
+      class="icon-remove"
+      alt="Icon remove"
+      *ngIf="workerProgress>0"
+      (click)="removeResponse()"
+    >
   </div>
   <div *ngFor="let text of workResult">
-    <span> {{ text }}</span>
+    <div class="content-result">
+      <span> {{ text }}</span>
+      <img
+        src="{{ _icons.iconCopy }}"
+        class="icon-copy"
+        alt="Icon copy"
+        (click)="copyText(text)"
+        title="Copy text!"
+      >
+    </div>
     <hr>
   </div>
 </div>

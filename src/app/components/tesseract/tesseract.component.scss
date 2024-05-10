@@ -7,9 +7,21 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .container-tesseract hr {
   color: #43555e;
   margin-top: 5px;
+}
+
+.content-result {
+  display: flex;
+}
+
+.icon-copy,
+.icon-remove {
+  height: 24px;
+  width: auto;
+  cursor: pointer;
 }

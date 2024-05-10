@@ -1,4 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Icons } from '@icons/icons';
+import { ClipboardService } from 'ngx-clipboard';
 import { WebcamImage } from 'ngx-webcam';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { TesseractService } from 'src/app/services/tesseract.service';
@@ -19,7 +21,11 @@ export class TesseractComponent implements OnInit, OnDestroy {
   public workResult: Array<string> = [];
   public workReady = false;
 
-  constructor(private _tesseractService: TesseractService) {
+  constructor(
+    private _tesseractService: TesseractService,
+    private _clipboardService: ClipboardService,
+    public _icons: Icons,
+  ) {
     this._tesseractService.imageCapture.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         const blob = this._tesseractService.base64toBlob(result);
@@ -46,7 +52,7 @@ export class TesseractComponent implements OnInit, OnDestroy {
   removeResponse = () => {
     this.workResult = [];
     this.workerProgress = 0;
-    this._tesseractService.showRecognitionView = false;
+    // this._tesseractService.showRecognitionView = false;
   }
 
   recognizeText = async (path: any) => {
@@ -57,10 +63,19 @@ export class TesseractComponent implements OnInit, OnDestroy {
         }
       }
     });
-    const { data: { text } } = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
-    this.workResult = [...this.workResult, text]
+
+    const { data: { text } } = await worker.recognize(path/* 'https://tesseract.projectnaptha.com/img/eng_bw.png' */);
+    this.workResult = [text, ...this.workResult];
+    if (this.workResult.length > 3) {
+      this.workResult.pop();
+    }
+
     this.workReady = true;
     await worker.terminate();
+  }
+
+  copyText = (item: string) => {
+    this._clipboardService.copy(item);
   }
 
   ngOnDestroy(): void {
