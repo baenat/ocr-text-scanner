@@ -37,6 +37,10 @@ jobs:
       - name: Build app
         run: npm run build:prod
 
+      # Rename file routes
+      - name: Rename file routes
+        run: mv dist/ocr-text-scanner/index.html dist/ocr-text-scanner/404.html
+
       # Deploy gitHub pages
       - name: Deploy gitHub pages
         uses: crazy-max/ghaction-github-pages@v4.1.0
